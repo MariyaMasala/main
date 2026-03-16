@@ -1,0 +1,168 @@
+##Practical 1
+Aim : Data Exploration & Visualization
+Introduction
+This practical demonstrates how to perform data exploration and visualization on the famous IRIS dataset using Python. The IRIS dataset contains 150 samples of iris flowers with 4 numerical features and 1 species label.
+
+#Question 1 
+Write a Python program to perform complete data exploration on the IRIS dataset using seaborn.
+Your program should include:
+1.	Importing required libraries
+2.	Loading the dataset
+3.	Displaying the first and last 5 rows
+4.	Checking dataset structure using info()
+5.	Displaying summary statistics using describe()
+6.	Checking for missing values
+7.	Writing conclusions based on findings (null values, datatypes, dataset size)
+
+#Step 1: Import Libraries
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load iris dataset
+df = sns.load_dataset('iris')
+df
+
+#Step 2: Display First & Last Rows
+print(df.head())
+print(df.tail())
+
+#Step 3: Dataset Structure
+df.info()
+
+#Step 4: Summary Statistics
+df.describe()
+
+
+#Step 5: Check Missing Values
+df.isnull().sum()
+ 
+#Step 6: Visualizations
+#Question 2 
+Using Python, generate the following plots for the IRIS dataset:
+1.	Histogram for all numerical columns
+2.	Boxplot for all numerical features
+3.	Countplot for species distribution
+4.	Scatter plot for sepal_length vs sepal_width
+Write the purpose of each plot and the findings observed.
+
+A) Histogram
+df.hist(figsize=(10,6))
+plt.show()
+
+B) Boxplot
+sns.boxplot(data=df)
+plt.show()
+
+C) Countplot (Species Distribution)
+sns.countplot(x='species', data=df)
+plt.show()
+
+D) Scatter Plot (Sepal Length vs Sepal Width)
+plt.scatter(df['sepal_length'], df['sepal_width'])
+plt.xlabel('Sepal Length')
+plt.ylabel('Sepal Width')
+plt.show()
+ 
+#Question 3 
+Write a Python program to draw a pairplot of the IRIS dataset using hue='species'.
+Based on the plot, answer:
+a)	Which species is most easily separable?
+b) Which features provide the best class separation?
+c) Why do sepal measurements show more overlap?
+
+E) Pairplot
+sns.pairplot(df, hue='species')
+plt.show()
+ 
+
+#Question 4 
+Using Python, plot a Scatter Multiple graph where:
+•	X-axis = Petal Length
+•	Y-axis = Sepal Length, Sepal Width, Petal Width
+Explain:
+a) The trends observed between Petal Length and each of the 3 attributes
+b) Which relationship is strongest and why?
+
+F) Scatter Multiple
+plt.figure(figsize=(10,6))
+plt.scatter(df['petal_length'], df['sepal_length'], label='Sepal Length')
+plt.scatter(df['petal_length'], df['sepal_width'], label='Sepal Width')
+plt.scatter(df['petal_length'], df['petal_width'], label='Petal Width')
+
+plt.xlabel('Petal Length')
+plt.ylabel('Values of Other Attributes')
+plt.title('Scatter Multiple Plot (Iris Dataset)')
+plt.legend()
+plt.show()
+ 
+
+#Question 5
+Write a Python program to generate a Scatter Matrix for all numerical features of the IRIS dataset.
+Answer:
+a) Which pair of features shows strong correlation?
+b) Which feature shows minimum correlation?
+c) How are clusters represented in the scatter matrix?
+d) Why are petal features more discriminative?
+
+F) Scatter Matrix
+Code
+from pandas.plotting import scatter_matrix
+plt.figure(figsize=(10,8))
+scatter_matrix(df.iloc[:, :4], figsize=(10,8), diagonal='hist')
+plt.show()
+ 
+
+#Question 6 
+Using Python, draw a Parallel Coordinates Plot for the IRIS dataset.
+Explain:
+a) How parallel coordinates represent multidimensional data
+b) How species are visually separated across axes
+c) Why petal measurements separate species better
+d) How lines indicate clustering
+
+G) Parallel Coordinates Plot
+from pandas.plotting import parallel_coordinates
+
+plt.figure(figsize=(10,6))
+parallel_coordinates(df, 'species')
+plt.title('Parallel Coordinates Plot - Iris Dataset')
+plt.show()
+ 
+
+#Question 7 
+Write a Python program to create a Deviation Chart showing deviation of all features from their mean.
+Explain:
+a) Which feature fluctuates the most?
+b) Which feature is most stable?
+c) Why are deviation charts useful?
+d) Are there any outliers?
+
+H) Deviation Chart (from Mean)
+Code
+mean_vals = df.iloc[:, :4].mean()
+
+plt.figure(figsize=(10,6))
+plt.plot(df.iloc[:, :4] - mean_vals)
+plt.title('Deviation Chart - Deviation from Mean')
+plt.xlabel('Record Index')
+plt.ylabel('Deviation')
+plt.show()
+
+
+#Question 8 
+Plot Andrews Curves for the IRIS dataset.
+Explain:
+a) How Andrews curves transform rows into continuous curves
+b) Why similar shapes indicate similar data points
+c) How species clusters appear in Andrews curves
+d) Which species shows the largest amplitude and why?
+
+I) Andrews Curve
+Code
+from pandas.plotting import andrews_curves
+
+plt.figure(figsize=(10,6))
+andrews_curves(df, 'species')
+plt.title('Andrews Curves - Iris Dataset')
+plt.show()
